@@ -1,0 +1,359 @@
+{
+  "info": {
+    "name": "Tasty Bites Restaurant API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Menu CRUD API. Base URL defaults to http://localhost:3000. Name: string, at least 3 characters. Description: string, at least 10 characters. Price: JSON number greater than 0. Category: appetizer, entree, dessert, or beverage. Ingredients: nonempty array of nonblank strings. Available: boolean, defaults to true. Errors share an error object with code and message. Validation errors include field details. This classroom API stores data in memory and resets when restarted."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Retrieve all menu items",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/menu",
+        "description": "Returns the current menu collection."
+      },
+      "response": [
+        {
+          "name": "Successful GET - Retrieve all menu items",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/menu"
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "[\n  {\n    \"id\": 1,\n    \"name\": \"Garden Pasta\",\n    \"description\": \"Pasta with fresh vegetables and tomato sauce.\",\n    \"price\": 14.5,\n    \"category\": \"entree\",\n    \"ingredients\": [\n      \"pasta\",\n      \"tomato\",\n      \"zucchini\"\n    ],\n    \"available\": true\n  }\n]"
+        }
+      ]
+    },
+    {
+      "name": "Retrieve one menu item",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/api/menu/1",
+        "description": "Returns a menu item by its numeric ID. A missing item returns 404."
+      },
+      "response": [
+        {
+          "name": "Successful GET - Retrieve one menu item",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/menu/1"
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"id\": 1,\n  \"name\": \"Garden Pasta\",\n  \"description\": \"Pasta with fresh vegetables and tomato sauce.\",\n  \"price\": 14.5,\n  \"category\": \"entree\",\n  \"ingredients\": [\n    \"pasta\",\n    \"tomato\",\n    \"zucchini\"\n  ],\n  \"available\": true\n}"
+        },
+        {
+          "name": "Error 404 - Menu item not found",
+          "originalRequest": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/menu/999"
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"message\": \"Menu item not found. Check the item ID.\"\n  }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Add a menu item",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/menu",
+        "description": "Creates a menu item. All fields except available are required. Available defaults to true.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Chocolate Cake\",\n  \"description\": \"Chocolate cake served with vanilla cream.\",\n  \"price\": 7,\n  \"category\": \"dessert\",\n  \"ingredients\": [\n    \"cocoa\",\n    \"flour\",\n    \"cream\"\n  ],\n  \"available\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Successful POST - Add a menu item",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/menu",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Chocolate Cake\",\n  \"description\": \"Chocolate cake served with vanilla cream.\",\n  \"price\": 7,\n  \"category\": \"dessert\",\n  \"ingredients\": [\n    \"cocoa\",\n    \"flour\",\n    \"cream\"\n  ],\n  \"available\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"id\": 2,\n  \"name\": \"Chocolate Cake\",\n  \"description\": \"Chocolate cake served with vanilla cream.\",\n  \"price\": 7,\n  \"category\": \"dessert\",\n  \"ingredients\": [\n    \"cocoa\",\n    \"flour\",\n    \"cream\"\n  ],\n  \"available\": true\n}"
+        },
+        {
+          "name": "Error 400 - Invalid price",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/menu",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Chocolate Cake\",\n  \"description\": \"Chocolate cake served with vanilla cream.\",\n  \"price\": -1,\n  \"category\": \"dessert\",\n  \"ingredients\": [\n    \"cocoa\",\n    \"flour\",\n    \"cream\"\n  ],\n  \"available\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_ERROR\",\n    \"message\": \"Correct the menu item fields and try again.\",\n    \"details\": [\n      {\n        \"field\": \"price\",\n        \"message\": \"Price must be a number greater than 0.\"\n      }\n    ]\n  }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Update a menu item",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/api/menu/1",
+        "description": "Replaces the editable fields of an existing item. Send all required fields. Omitted available defaults to true.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Chocolate Cake\",\n  \"description\": \"Chocolate cake served with vanilla cream.\",\n  \"price\": 7,\n  \"category\": \"dessert\",\n  \"ingredients\": [\n    \"cocoa\",\n    \"flour\",\n    \"cream\"\n  ],\n  \"available\": true\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "response": [
+        {
+          "name": "Successful PUT - Update a menu item",
+          "originalRequest": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/menu/1",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Chocolate Cake\",\n  \"description\": \"Chocolate cake served with vanilla cream.\",\n  \"price\": 7,\n  \"category\": \"dessert\",\n  \"ingredients\": [\n    \"cocoa\",\n    \"flour\",\n    \"cream\"\n  ],\n  \"available\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"id\": 1,\n  \"name\": \"Chocolate Cake\",\n  \"description\": \"Chocolate cake served with vanilla cream.\",\n  \"price\": 7,\n  \"category\": \"dessert\",\n  \"ingredients\": [\n    \"cocoa\",\n    \"flour\",\n    \"cream\"\n  ],\n  \"available\": true\n}"
+        },
+        {
+          "name": "Error 400 - Invalid price",
+          "originalRequest": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/menu/1",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Chocolate Cake\",\n  \"description\": \"Chocolate cake served with vanilla cream.\",\n  \"price\": -1,\n  \"category\": \"dessert\",\n  \"ingredients\": [\n    \"cocoa\",\n    \"flour\",\n    \"cream\"\n  ],\n  \"available\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Bad Request",
+          "code": 400,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"error\": {\n    \"code\": \"VALIDATION_ERROR\",\n    \"message\": \"Correct the menu item fields and try again.\",\n    \"details\": [\n      {\n        \"field\": \"price\",\n        \"message\": \"Price must be a number greater than 0.\"\n      }\n    ]\n  }\n}"
+        },
+        {
+          "name": "Error 404 - Menu item not found",
+          "originalRequest": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/menu/999",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Chocolate Cake\",\n  \"description\": \"Chocolate cake served with vanilla cream.\",\n  \"price\": 7,\n  \"category\": \"dessert\",\n  \"ingredients\": [\n    \"cocoa\",\n    \"flour\",\n    \"cream\"\n  ],\n  \"available\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"message\": \"Menu item not found. Check the item ID.\"\n  }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Delete a menu item",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/api/menu/1",
+        "description": "Deletes the item and returns its details and a confirmation message."
+      },
+      "response": [
+        {
+          "name": "Successful DELETE - Delete a menu item",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/api/menu/1"
+          },
+          "status": "OK",
+          "code": 200,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"message\": \"Menu item deleted.\",\n  \"item\": {\n    \"id\": 1,\n    \"name\": \"Garden Pasta\",\n    \"description\": \"Pasta with fresh vegetables and tomato sauce.\",\n    \"price\": 14.5,\n    \"category\": \"entree\",\n    \"ingredients\": [\n      \"pasta\",\n      \"tomato\",\n      \"zucchini\"\n    ],\n    \"available\": true\n  }\n}"
+        },
+        {
+          "name": "Error 404 - Menu item not found",
+          "originalRequest": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/api/menu/999"
+          },
+          "status": "Not Found",
+          "code": 404,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"error\": {\n    \"code\": \"NOT_FOUND\",\n    \"message\": \"Menu item not found. Check the item ID.\"\n  }\n}"
+        }
+      ]
+    }
+  ]
+}
